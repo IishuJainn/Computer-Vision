@@ -6,6 +6,7 @@ import cvzone
 import time
 import random
 
+
 # Webcam
 cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
