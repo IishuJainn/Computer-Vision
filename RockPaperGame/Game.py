@@ -3,6 +3,9 @@ import cv2
 import cvzone
 from cvzone.HandTrackingModule import HandDetector
 import time
+import pygame
+
+pygame.mixer.init()
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
@@ -54,12 +57,16 @@ while True:
                     if (playerMove == 1 and randomNumber == 3) or \
                             (playerMove == 2 and randomNumber == 1) or \
                             (playerMove == 3 and randomNumber == 2):
+                        pygame.mixer.music.load("Win.wav")
+                        pygame.mixer.music.play()
                         scores[1] += 1
 
                     # AI Wins
                     if (playerMove == 3 and randomNumber == 1) or \
                             (playerMove == 1 and randomNumber == 2) or \
                             (playerMove == 2 and randomNumber == 3):
+                        pygame.mixer.music.load("Lose.Wav")
+                        pygame.mixer.music.play()
                         scores[0] += 1
 
     imgBG[234:654, 795:1195] = imgScaled
@@ -79,3 +86,9 @@ while True:
         startGame = True
         initialTime = time.time()
         stateResult = False
+
+    if cv2.waitKey(5) & 0xFF == 'q':
+        break
+
+cap.release()
+cv2.destroyAllWindows()
