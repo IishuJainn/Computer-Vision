@@ -4,8 +4,11 @@ import cvzone
 import cv2
 import numpy as np
 from cvzone.HandTrackingModule import HandDetector
+import pygame
 
-cap = cv2.VideoCapture(1)
+pygame.mixer.init()
+
+cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
 cap.set(4, 720)
 
@@ -13,6 +16,7 @@ detector = HandDetector(detectionCon=0.8, maxHands=1)
 
 
 class SnakeGameClass:
+
     def __init__(self, pathFood):
         self.points = []  # all points of the snake
         self.lengths = []  # distance between each point
@@ -34,6 +38,7 @@ class SnakeGameClass:
     def update(self, imgMain, currentHead):
 
         if self.gameOver:
+
             cvzone.putTextRect(imgMain, "Game Over", [300, 400],
                                scale=7, thickness=5, offset=20)
             cvzone.putTextRect(imgMain, f'Your Score: {self.score}', [300, 550],
@@ -63,6 +68,8 @@ class SnakeGameClass:
                     ry - self.hFood // 2 < cy < ry + self.hFood // 2:
                 self.randomFoodLocation()
                 self.allowedLength += 50
+                pygame.mixer.music.load("point.wav")
+                pygame.mixer.music.play()
                 self.score += 1
                 print(self.score)
 
@@ -88,6 +95,9 @@ class SnakeGameClass:
 
             if -1 <= minDist <= 1:
                 print("Hit")
+                pygame.mixer.music.load("GameOver1.wav")
+                pygame.mixer.music.play()
+
                 self.gameOver = True
                 self.points = []  # all points of the snake
                 self.lengths = []  # distance between each point
@@ -95,9 +105,7 @@ class SnakeGameClass:
                 self.allowedLength = 150  # total allowed Length
                 self.previousHead = 0, 0  # previous head point
                 self.randomFoodLocation()
-
         return imgMain
-
 
 game = SnakeGameClass("Donut.png")
 
@@ -115,3 +123,10 @@ while True:
     if key == ord('r'):
         game.gameOver = False
         game.score = 0
+
+    if cv2.waitKey(5) & 0xFF == 27:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
