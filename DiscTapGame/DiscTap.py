@@ -5,7 +5,7 @@ import numpy as np
 import cvzone
 import time
 import random
-import pandas
+
 
 # Webcam
 cap = cv2.VideoCapture(0)
