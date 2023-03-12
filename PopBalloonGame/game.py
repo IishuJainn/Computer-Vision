@@ -90,7 +90,6 @@ while start:
         window.blit(frame, (0, 0))
         window.blit(imgBalloon, rectBalloon)
 
-        if cv2.waitKey
         font = pygame.font.Font(None, 50)
         textScore = font.render(f'Score: {score}', True, (50, 50, 255))
         textTime = font.render(f'Time: {timeRemain}', True, (50, 50, 255))
