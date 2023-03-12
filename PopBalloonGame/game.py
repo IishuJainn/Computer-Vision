@@ -1,4 +1,3 @@
-# Import
 import random
 import pygame
 import cv2
